@@ -74,4 +74,7 @@ dependencies {
 
     //Progress wheel
     implementation "com.pnikosis:materialish-progress:1.7"
+
+    //Android Swipe Layout
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
 }

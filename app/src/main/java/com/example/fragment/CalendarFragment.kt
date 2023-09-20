@@ -1,4 +1,4 @@
-package com.example.Fragment
+package com.example.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,14 +10,14 @@ import com.example.pin.R
 /**
  * A simple [Fragment] subclass.
  */
-class UserFragment : Fragment() {
+class CalendarFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false)
+        return inflater.inflate(R.layout.fragment_calendar, container, false)
     }
 
 

@@ -14,14 +14,15 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.Adapter.DragManageAdapter
-import com.example.Adapter.NameAdapter
-import com.example.Fragment.*
+import com.example.adapter.DragManageAdapter
+import com.example.adapter.NameAdapter
+import com.example.fragment.*
 import com.example.Interface.ItemListener
 import com.example.Interface.SiteClickListener
 import com.example.obj.sites
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     NavigationView.OnNavigationItemSelectedListener, ItemListener, SiteClickListener  {
@@ -73,22 +74,23 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun initRecyclerView() {
-        val rv_name = navigation.findViewById<RecyclerView>(R.id.rvSites)
-        val manager  = LinearLayoutManager(this)
-        rv_name.layoutManager = manager
-        val itemAdapter = NameAdapter(getNameList(), this)
-        rv_name.adapter = itemAdapter
+        val rvSites = findViewById<RecyclerView>(R.id.rvSites)
+        val layoutManager = LinearLayoutManager(this)
+        rvSites.layoutManager = layoutManager
 
-        val dividerItemDecoration = DividerItemDecoration(this , manager.orientation)
-        rv_name.addItemDecoration(dividerItemDecoration)
+        val nameList = getNameList()
+        val nameAdapter = NameAdapter(nameList, this)
+        rvSites.adapter = nameAdapter
 
+        val dividerItemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        rvSites.addItemDecoration(dividerItemDecoration)
 
         // Setup ItemTouchHelper
-        val callback = DragManageAdapter(itemAdapter, this,
-            ItemTouchHelper.UP.or(ItemTouchHelper.DOWN), ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT))
+        val callback = DragManageAdapter(nameAdapter, nameList, this, ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
         val helper = ItemTouchHelper(callback)
-        helper.attachToRecyclerView(rv_name)
+        helper.attachToRecyclerView(rvSites)
     }
+
 
     private fun initList() {
         //액션바 변경하기(들어갈 수 있는 타입 : Toolbar type
