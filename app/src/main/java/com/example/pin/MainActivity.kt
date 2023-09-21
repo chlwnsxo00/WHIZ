@@ -25,6 +25,7 @@ import com.example.fragment.UserFragment
 import com.example.obj.sites
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
@@ -42,23 +43,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private val now: TextView by lazy {
         findViewById(R.id.now)
     }
-    private val navigation: NavigationView by lazy {
-        findViewById(R.id.navigation)
-    }
-    val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 
     var fragmentHome = Fragment()
 
-    lateinit var bottomNavigationView : BottomNavigationView
+    lateinit var bottomNavigationView: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        now.text = SplashActivity.prefs.getString("name","Bloomberg")
+        now.text = SplashActivity.prefs.getString("name", "Bloomberg")
 
         fragmentHome = HomeFragment()
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
+
 
         //첫 프래그먼트 화면은 home fragment로
         bottomNavigationView.selectedItemId = R.id.home
@@ -66,14 +64,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         initList()
     }
 
-    fun getNameList() : ArrayList<sites>
-    {
+    fun getNameList(): ArrayList<sites> {
         val list = ArrayList<sites>()
-        list.add(sites("Bloomberg","https://www.bloomberg.com/markets"))
-        list.add(sites("CNBC","https://www.cnbc.com/world/?region=world"))
-        list.add(sites("Google finance","https://www.google.com/finance/"))
-        list.add(sites("yahoo!finance","https://finance.yahoo.com/?guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAKB0BfHIF_aP13mToUmDLG_gMUpyz31uzhO03q1FeVx4SlkRq9bKPJNdcqWUH5wOKooDTauDD0aK2gWVn2rrgwEvqSbZL6IyHNTCjp0Baa6w9JTs2Czh249aP5pWJL4H2M714Oh9_3usJyzT1USs4ZiSYGvM1o7Z1rdx62-Np1YM"))
-        list.add(sites("FINVIZ","https://finviz.com/map.ashx?t=sec"))
+        list.add(sites("Bloomberg", "https://www.bloomberg.com/markets"))
+        list.add(sites("CNBC", "https://www.cnbc.com/world/?region=world"))
+        list.add(sites("Google finance", "https://www.google.com/finance/"))
+        list.add(
+            sites(
+                "yahoo!finance",
+                "https://finance.yahoo.com/?guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAKB0BfHIF_aP13mToUmDLG_gMUpyz31uzhO03q1FeVx4SlkRq9bKPJNdcqWUH5wOKooDTauDD0aK2gWVn2rrgwEvqSbZL6IyHNTCjp0Baa6w9JTs2Czh249aP5pWJL4H2M714Oh9_3usJyzT1USs4ZiSYGvM1o7Z1rdx62-Np1YM"
+            )
+        )
+        list.add(sites("FINVIZ", "https://finviz.com/map.ashx?t=sec"))
 
         return list
     }
@@ -91,7 +93,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         rvSites.addItemDecoration(dividerItemDecoration)
 
         // Setup ItemTouchHelper
-        val callback = DragManageAdapter(nameAdapter, nameList, this, ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+        val callback = DragManageAdapter(
+            nameAdapter,
+            nameList,
+            this,
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        )
         val helper = ItemTouchHelper(callback)
         helper.attachToRecyclerView(rvSites)
     }
@@ -109,22 +117,23 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        when(p0.itemId){
-            R.id.home ->{
+        val transaction = supportFragmentManager.beginTransaction() // 새로운 트랜잭션 생성
+        when (p0.itemId) {
+            R.id.home -> {
                 val fragmentHome = HomeFragment()
-                transaction.replace(R.id.frameLayout,fragmentHome, "home")
+                transaction.replace(R.id.frameLayout, fragmentHome, "home")
             }
             R.id.star -> {
                 val fragmentStar = StarFragment()
-                transaction.replace(R.id.frameLayout,fragmentStar, "star")
+                transaction.replace(R.id.frameLayout, fragmentStar, "star")
             }
             R.id.calendar -> {
                 val fragmentCalendar = CalendarFragment()
-                transaction.replace(R.id.frameLayout,fragmentCalendar, "calendar")
+                transaction.replace(R.id.frameLayout, fragmentCalendar, "calendar")
             }
             R.id.user -> {
                 val fragmentUser = UserFragment()
-                transaction.replace(R.id.frameLayout,fragmentUser, "user")
+                transaction.replace(R.id.frameLayout, fragmentUser, "user")
             }
         }
         transaction.addToBackStack(null)
