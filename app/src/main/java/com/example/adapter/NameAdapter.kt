@@ -67,8 +67,4 @@ class NameAdapter(private val nameList : ArrayList<sites>, private val listener 
         }
         notifyItemMoved(fromPosition, toPosition)
     }
-    fun removeData(position: Int){
-        nameList.removeAt(position)
-        notifyItemRemoved(position)
-    }
 }

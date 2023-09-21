@@ -29,6 +29,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -77,4 +80,21 @@ dependencies {
 
     //Android Swipe Layout
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
+    //RefreshLayout
+    implementation 'in.srain.cube:ultra-ptr:1.0.11'
+
+    //Progress wheel
+    implementation "com.pnikosis:materialish-progress:1.7"
+
+    //Room
+    implementation "androidx.room:room-runtime:2.5.2"
+    annotationProcessor "androidx.room:room-compiler:2.5.2"
+    androidTestImplementation "androidx.room:room-testing:2.5.2"
+
+    // Lifecycle components
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.6.2"
 }

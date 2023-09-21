@@ -1,6 +1,7 @@
 package com.example.pin
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.widget.ImageView
@@ -14,18 +15,20 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.Interface.ItemListener
 import com.example.adapter.DragManageAdapter
 import com.example.adapter.NameAdapter
-import com.example.fragment.*
-import com.example.Interface.ItemListener
-import com.example.Interface.SiteClickListener
+import com.example.fragment.CalendarFragment
+import com.example.fragment.HomeFragment
+import com.example.fragment.StarFragment
+import com.example.fragment.UserFragment
 import com.example.obj.sites
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
-    NavigationView.OnNavigationItemSelectedListener, ItemListener, SiteClickListener  {
+    NavigationView.OnNavigationItemSelectedListener, ItemListener {
 
     private val ivMenu: ImageView by lazy {
         findViewById(R.id.iv_menu)
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private val navigation: NavigationView by lazy {
         findViewById(R.id.navigation)
     }
+    val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 
     var fragmentHome = Fragment()
 
@@ -49,6 +53,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        now.text = SplashActivity.prefs.getString("name","Bloomberg")
 
         fragmentHome = HomeFragment()
 
@@ -104,7 +109,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         when(p0.itemId){
             R.id.home ->{
                 val fragmentHome = HomeFragment()
@@ -124,20 +128,22 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
         }
         transaction.addToBackStack(null)
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         transaction.commit()
         return true
     }
 
     override fun onClicked(site: sites) {
-        onSiteClicked(site)
         now.text = site.name
-    }
-
-    override fun onSiteClicked(site: sites) {
-        if (fragmentHome is SiteClickListener) {
-            (fragmentHome as SiteClickListener).onSiteClicked(site)
-        }
+        Log.d("url", "prefs.set(url) = " + site.url)
+        SplashActivity.prefs.setString("url", site.url)
+        SplashActivity.prefs.setString("name", site.name)
+        val fragmentHome = HomeFragment()
+        val newTransaction = supportFragmentManager.beginTransaction() // 새로운 트랜잭션 생성
+        newTransaction.replace(R.id.frameLayout, fragmentHome, "home")
+        newTransaction.addToBackStack(null)
+        newTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        newTransaction.commit() // 새로운 트랜잭션 커밋
         drawerLayout.closeDrawer(GravityCompat.START)
     }
 }

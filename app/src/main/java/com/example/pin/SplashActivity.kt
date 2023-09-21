@@ -17,7 +17,6 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // 상단 액션바 숨기기
         prefs = PreferenceUtil(applicationContext)
-
         supportActionBar?.hide()
         setContentView(R.layout.activity_splash)
         Handler().postDelayed({
