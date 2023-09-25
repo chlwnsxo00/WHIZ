@@ -1,6 +1,7 @@
 package com.example.pin
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.Interface.ItemListener
@@ -31,6 +33,10 @@ import com.example.viewModels.SiteViewModel
 import com.example.viewModels.SiteViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
@@ -103,26 +109,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             val intent = Intent(this@MainActivity, NewSiteActivity::class.java)
             startActivityForResult(intent, newSiteActivityRequestCode)
         }
-//        val rvSites = findViewById<RecyclerView>(R.id.rvSites)
-//        val layoutManager = LinearLayoutManager(this)
-//        rvSites.layoutManager = layoutManager
-//
-//        val nameAdapter = NameAdapter(nameList, this)
-//        rvSites.adapter = nameAdapter
-//
+
 //        val dividerItemDecoration = DividerItemDecoration(this, layoutManager.orientation)
 //        rvSites.addItemDecoration(dividerItemDecoration)
-//
-//        // Setup ItemTouchHelper
-//        val callback = DragManageAdapter(
-//            nameAdapter,
-//            nameList,
-//            this,
-//            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-//            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-//        )
-//        val helper = ItemTouchHelper(callback)
-//        helper.attachToRecyclerView(rvSites)
+        // Setup ItemTouchHelper
+        val callback = DragManageAdapter(
+            adapter,
+            this,
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        )
+        val helper = ItemTouchHelper(callback)
+        helper.attachToRecyclerView(recyclerView)
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
@@ -196,4 +194,43 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         newTransaction.commit() // 새로운 트랜잭션 커밋
         drawerLayout.closeDrawer(GravityCompat.START)
     }
+
+    private inner class DragManageAdapter(
+        private val siteListAdapter: SiteListAdapter, // Use the adapter as a parameter
+        private val context: Context,
+        dragDirs: Int,
+        swipeDirs: Int
+    ) : ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            siteListAdapter.swapItems(viewHolder.adapterPosition, target.adapterPosition)
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val deletedSite = siteListAdapter.currentList[viewHolder.adapterPosition]
+            val position = viewHolder.adapterPosition
+
+            SiteViewModel.delete(deletedSite)
+
+            siteListAdapter.notifyItemRemoved(position)
+
+            Snackbar.make(
+                viewHolder.itemView,
+                "Deleted : " + deletedSite.name,
+                Snackbar.LENGTH_LONG
+            ).setAction("Undo") {
+                GlobalScope.launch(Dispatchers.IO) {
+                    SiteViewModel.insert(deletedSite)
+                }
+            }.show()
+        }
+    }
+
 }

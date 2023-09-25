@@ -58,17 +58,12 @@ class SiteListAdapter(private val listener : ItemListener) : ListAdapter<Site, S
 
 
     fun swapItems(fromPosition: Int, toPosition: Int) {
-        val fromItem = getItem(fromPosition)
-        val toItem = getItem(toPosition)
+        val currentListCopy = currentList.toMutableList()
+        val fromItem = currentListCopy[fromPosition]
+        currentListCopy[fromPosition] = currentListCopy[toPosition]
+        currentListCopy[toPosition] = fromItem
 
-        // Swap the items in your data source (e.g., the list of Sites)
-        currentList[fromPosition] = toItem
-        currentList[toPosition] = fromItem
-
-        // Notify the adapter of the item movement
-        notifyItemMoved(fromPosition, toPosition)
-
-        // Notify the callback about the item movement
+        submitList(currentListCopy)
         onItemMovedCallback?.invoke(fromPosition, toPosition)
     }
 }
