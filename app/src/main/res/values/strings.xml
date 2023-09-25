@@ -2,4 +2,9 @@
     <string name="app_name">Pin</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_word">Site Name...</string>
+    <string name="hint_url">URL...</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Site not saved because it is empty.</string>
+    <string name="add_word">Add site</string>
 </resources>

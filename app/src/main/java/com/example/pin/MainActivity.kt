@@ -1,36 +1,42 @@
 package com.example.pin
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.Interface.ItemListener
-import com.example.adapter.DragManageAdapter
-import com.example.adapter.NameAdapter
+import com.example.adapter.SiteListAdapter
 import com.example.fragment.CalendarFragment
 import com.example.fragment.HomeFragment
 import com.example.fragment.StarFragment
 import com.example.fragment.UserFragment
 import com.example.obj.sites
+import com.example.room.Site
+import com.example.viewModels.SiteViewModel
+import com.example.viewModels.SiteViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     NavigationView.OnNavigationItemSelectedListener, ItemListener {
 
+    private val newSiteActivityRequestCode = 1
     private val ivMenu: ImageView by lazy {
         findViewById(R.id.iv_menu)
     }
@@ -43,72 +49,107 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private val now: TextView by lazy {
         findViewById(R.id.now)
     }
-
+    private lateinit var editSiteView: EditText
+    private lateinit var editURLView: EditText
     var fragmentHome = Fragment()
-
     lateinit var bottomNavigationView: BottomNavigationView
+    private val SiteViewModel: SiteViewModel by viewModels {
+        SiteViewModelFactory((application as SiteApplication).repository)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         now.text = SplashActivity.prefs.getString("name", "Bloomberg")
 
-        fragmentHome = HomeFragment()
+        val recyclerView = findViewById<RecyclerView>(R.id.rvSites)
+        val adapter = SiteListAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
+        fragmentHome = HomeFragment()
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
-
 
         //첫 프래그먼트 화면은 home fragment로
         bottomNavigationView.selectedItemId = R.id.home
         initRecyclerView()
         initList()
+        initAdd()
     }
 
-    fun getNameList(): ArrayList<sites> {
-        val list = ArrayList<sites>()
-        list.add(sites("Bloomberg", "https://www.bloomberg.com/markets"))
-        list.add(sites("CNBC", "https://www.cnbc.com/world/?region=world"))
-        list.add(sites("Google finance", "https://www.google.com/finance/"))
-        list.add(
-            sites(
-                "yahoo!finance",
-                "https://finance.yahoo.com/?guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAKB0BfHIF_aP13mToUmDLG_gMUpyz31uzhO03q1FeVx4SlkRq9bKPJNdcqWUH5wOKooDTauDD0aK2gWVn2rrgwEvqSbZL6IyHNTCjp0Baa6w9JTs2Czh249aP5pWJL4H2M714Oh9_3usJyzT1USs4ZiSYGvM1o7Z1rdx62-Np1YM"
-            )
-        )
-        list.add(sites("FINVIZ", "https://finviz.com/map.ashx?t=sec"))
-
-        return list
+    private fun initAdd() {
+        val button = findViewById<ImageView>(R.id.add_button)
+        button.setOnClickListener {
+            val intent = Intent(this@MainActivity, NewSiteActivity::class.java)
+            startActivityForResult(intent, newSiteActivityRequestCode)
+        }
     }
 
     private fun initRecyclerView() {
-        val rvSites = findViewById<RecyclerView>(R.id.rvSites)
-        val layoutManager = LinearLayoutManager(this)
-        rvSites.layoutManager = layoutManager
+        val recyclerView = findViewById<RecyclerView>(R.id.rvSites)
+        val adapter = SiteListAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val nameList = getNameList()
-        val nameAdapter = NameAdapter(nameList, this)
-        rvSites.adapter = nameAdapter
+        SiteViewModel.allSites.observe(this, Observer { words ->
+            // Update the cached copy of the words in the adapter.
+            words?.let { adapter.submitList(it) }
+        })
 
-        val dividerItemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-        rvSites.addItemDecoration(dividerItemDecoration)
-
-        // Setup ItemTouchHelper
-        val callback = DragManageAdapter(
-            nameAdapter,
-            nameList,
-            this,
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        )
-        val helper = ItemTouchHelper(callback)
-        helper.attachToRecyclerView(rvSites)
+        val add = findViewById<ImageView>(R.id.add_button)
+        add.setOnClickListener {
+            val intent = Intent(this@MainActivity, NewSiteActivity::class.java)
+            startActivityForResult(intent, newSiteActivityRequestCode)
+        }
+//        val rvSites = findViewById<RecyclerView>(R.id.rvSites)
+//        val layoutManager = LinearLayoutManager(this)
+//        rvSites.layoutManager = layoutManager
+//
+//        val nameAdapter = NameAdapter(nameList, this)
+//        rvSites.adapter = nameAdapter
+//
+//        val dividerItemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+//        rvSites.addItemDecoration(dividerItemDecoration)
+//
+//        // Setup ItemTouchHelper
+//        val callback = DragManageAdapter(
+//            nameAdapter,
+//            nameList,
+//            this,
+//            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+//            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+//        )
+//        val helper = ItemTouchHelper(callback)
+//        helper.attachToRecyclerView(rvSites)
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intentData)
 
+        if (requestCode == newSiteActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            var word : String? = null
+            var url : String? = null
+            intentData?.getStringExtra(NewSiteActivity.EXTRA_SITE_REPLY)?.let { reply ->
+                word = reply
+            }
+            intentData?.getStringExtra(NewSiteActivity.EXTRA_URL_REPLY)?.let { reply ->
+                url = reply
+            }
+            if (word!=null&&url!=null)
+                SiteViewModel.insert(Site(word!!, url!!))
+        } else {
+            Toast.makeText(
+                applicationContext,
+                R.string.empty_not_saved,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
 
     private fun initList() {
         //액션바 변경하기(들어갈 수 있는 타입 : Toolbar type
         setSupportActionBar(toolbar)
-
         ivMenu.setOnClickListener {
             drawerLayout.openDrawer(Gravity.LEFT)
         }
@@ -142,7 +183,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return true
     }
 
-    override fun onClicked(site: sites) {
+    override fun onClicked(site: Site) {
         now.text = site.name
         Log.d("url", "prefs.set(url) = " + site.url)
         SplashActivity.prefs.setString("url", site.url)

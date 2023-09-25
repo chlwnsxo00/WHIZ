@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
                 binding.refreshLayout.postDelayed({
                     // 리프레시 완료 후 호출
                     binding.refreshLayout.refreshComplete()
-                }, 1000) // 예시: 2초 후 리프레시 완료
+                }, 1000) // 예시: 1초 후 리프레시 완료
             }
         })
     }

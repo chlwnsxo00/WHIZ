@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable-v24/arrow_back.xml" value="0.158" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable/btn_blue.xml" value="0.167" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable/close.xml" value="0.179" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable/list.xml" value="0.16" />
@@ -17,6 +18,7 @@
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/activity_finviz.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/activity_google.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/activity_new_site.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/activity_splash.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/activity_yahoo.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_account.xml" value="0.321875" />
@@ -27,6 +29,7 @@
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_finviz.xml" value="0.1" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_home.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_information.xml" value="0.321875" />
+        <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_star.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_user.xml" value="0.3072916666666667" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/news.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/sites.xml" value="0.3333333333333333" />

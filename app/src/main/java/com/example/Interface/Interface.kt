@@ -1,8 +1,8 @@
 package com.example.Interface
 
-import com.example.obj.sites
+import com.example.room.Site
 
 
 interface ItemListener {
-    fun onClicked(name : sites)
+    fun onClicked(name : Site)
 }
