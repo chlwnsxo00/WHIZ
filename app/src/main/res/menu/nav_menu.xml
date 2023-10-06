@@ -5,13 +5,13 @@
         android:id="@+id/home"
         android:icon="@drawable/news"
         android:enabled="true"
-        android:title="홈"/>
+        android:title="뉴스"/>
 
     <item
         android:id="@+id/star"
-        android:icon="@drawable/star"
+        android:icon="@drawable/chart"
         android:enabled="true"
-        android:title="관심 기업" />
+        android:title="주식" />
     <item
         android:id="@+id/calendar"
         android:icon="@drawable/calendar"

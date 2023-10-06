@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -27,7 +26,6 @@ import com.example.fragment.CalendarFragment
 import com.example.fragment.HomeFragment
 import com.example.fragment.StarFragment
 import com.example.fragment.UserFragment
-import com.example.obj.sites
 import com.example.room.Site
 import com.example.viewModels.SiteViewModel
 import com.example.viewModels.SiteViewModelFactory
@@ -55,12 +53,25 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private val now: TextView by lazy {
         findViewById(R.id.now)
     }
-    private lateinit var editSiteView: EditText
-    private lateinit var editURLView: EditText
     var fragmentHome = Fragment()
     lateinit var bottomNavigationView: BottomNavigationView
     private val SiteViewModel: SiteViewModel by viewModels {
         SiteViewModelFactory((application as SiteApplication).repository)
+    }
+
+    private fun restoreItemOrder(adapter : SiteListAdapter) {
+        val sharedPreferences = getSharedPreferences("item_order", Context.MODE_PRIVATE)
+        val itemList = adapter.currentList.toMutableList()
+
+        // SharedPreferences에서 저장된 순서를 불러와서 아이템 순서를 변경
+        for (item in itemList) {
+            val index = sharedPreferences.getInt(item.name, -1)
+            if (index != -1) {
+                itemList[index] = item
+            }
+        }
+
+        adapter.submitList(itemList)
     }
 
 
@@ -81,7 +92,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         //첫 프래그먼트 화면은 home fragment로
         bottomNavigationView.selectedItemId = R.id.home
         initRecyclerView()
-        initList()
+        initNewsToolbar()
         initAdd()
     }
 
@@ -109,10 +120,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             val intent = Intent(this@MainActivity, NewSiteActivity::class.java)
             startActivityForResult(intent, newSiteActivityRequestCode)
         }
-
-//        val dividerItemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-//        rvSites.addItemDecoration(dividerItemDecoration)
-        // Setup ItemTouchHelper
         val callback = DragManageAdapter(
             adapter,
             this,
@@ -121,6 +128,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         )
         val helper = ItemTouchHelper(callback)
         helper.attachToRecyclerView(recyclerView)
+        // 저장된 순서 복원
+        restoreItemOrder(adapter)
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
@@ -145,7 +154,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
     }
 
-    private fun initList() {
+    private fun initNewsToolbar() {
         //액션바 변경하기(들어갈 수 있는 타입 : Toolbar type
         setSupportActionBar(toolbar)
         ivMenu.setOnClickListener {
@@ -159,18 +168,23 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val transaction = supportFragmentManager.beginTransaction() // 새로운 트랜잭션 생성
         when (p0.itemId) {
             R.id.home -> {
+                initNewsToolbar()
+                now.text = SplashActivity.prefs.getString("name"," ")
                 val fragmentHome = HomeFragment()
                 transaction.replace(R.id.frameLayout, fragmentHome, "home")
             }
             R.id.star -> {
+                now.text = " "
                 val fragmentStar = StarFragment()
                 transaction.replace(R.id.frameLayout, fragmentStar, "star")
             }
             R.id.calendar -> {
+                now.text = " "
                 val fragmentCalendar = CalendarFragment()
                 transaction.replace(R.id.frameLayout, fragmentCalendar, "calendar")
             }
             R.id.user -> {
+                now.text = " "
                 val fragmentUser = UserFragment()
                 transaction.replace(R.id.frameLayout, fragmentUser, "user")
             }
@@ -204,12 +218,40 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
         ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
     ) {
+
+
+        // RecyclerView의 아이템 위치를 변경한 후에 호출하는 함수
+        fun onItemMoved(fromPosition: Int, toPosition: Int) {
+            val currentList = siteListAdapter.currentList.toMutableList()
+            val movedItem = currentList.removeAt(fromPosition)
+            currentList.add(toPosition, movedItem)
+            siteListAdapter.submitList(currentList)
+
+            // 변경된 순서를 SharedPreferences에 저장
+            saveItemOrder(currentList)
+        }
+
+        // 아이템 순서를 SharedPreferences에 저장하는 함수
+        private fun saveItemOrder(itemList: List<Site>) {
+            val sharedPreferences = getSharedPreferences("item_order", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+
+            for ((index, item) in itemList.withIndex()) {
+                // 각 아이템의 순서를 저장
+                editor.putInt(item.name, index)
+            }
+
+            editor.apply()
+        }
+
+
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
             siteListAdapter.swapItems(viewHolder.adapterPosition, target.adapterPosition)
+            onItemMoved(viewHolder.adapterPosition, target.adapterPosition)
             return true
         }
 
@@ -218,7 +260,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             val position = viewHolder.adapterPosition
 
             SiteViewModel.delete(deletedSite)
-
             siteListAdapter.notifyItemRemoved(position)
 
             Snackbar.make(

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.Interface.ItemListener
-import com.example.db.SiteRepository
 import com.example.pin.R
 import com.example.room.Site
 

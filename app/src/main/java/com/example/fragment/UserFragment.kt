@@ -5,12 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.pin.MainActivity
 import com.example.pin.R
+import com.example.pin.databinding.FragmentHomeBinding
 
 /**
  * A simple [Fragment] subclass.
  */
 class UserFragment : Fragment() {
+    private lateinit var binding: FragmentHomeBinding
+    private val mainActivity: MainActivity by lazy {
+        context as MainActivity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

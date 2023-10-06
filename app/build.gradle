@@ -1,8 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 apply plugin: 'kotlin-kapt'
+
 android {
     compileSdk 33
     viewBinding {
@@ -120,8 +122,14 @@ dependencies {
     })
     androidTestImplementation "androidx.test.ext:junit:$rootProject.androidxJunitVersion"
 
-
-
     //noinspection LifecycleAnnotationProcessorWithJava8
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.6.2"
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+
 }
