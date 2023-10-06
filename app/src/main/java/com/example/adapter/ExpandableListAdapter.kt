@@ -58,7 +58,11 @@ class ExpandableListAdapter(
         val item = getChild(parent, child) as Site
 
         binding.expandChildTitle.text= item.name
-        listener.onClicked(item)
+        binding.root.setOnClickListener {
+            listener.onClicked(item)
+            binding.imageView.setImageResource(R.drawable.done_black)
+            binding.root.isClickable = false
+        }
         return binding.root
     }
 

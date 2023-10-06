@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ExpandableListView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.Interface.ItemListener
@@ -156,7 +157,7 @@ class NewSiteActivity : AppCompatActivity(), ItemListener {
                 , Site("NakedShort Report","https://www.nakedshortreport.com/")
             )
         )
-        val adapter = ExpandableListAdapter(this, parentList, childList)
+        val adapter = ExpandableListAdapter(this, parentList, childList,this)
         expandableListView.setAdapter(adapter)
         expandableListView.setOnGroupClickListener { parent, view, groupPosition, id ->
             setListViewHeight(parent, groupPosition)
@@ -213,10 +214,9 @@ class NewSiteActivity : AppCompatActivity(), ItemListener {
 
     override fun onClicked(name: Site) {
         val replyIntent = Intent()
-        val word = editWordView.text.toString()
-        val url = editURLView.text.toString()
-        replyIntent.putExtra(EXTRA_SITE_REPLY, word)
-        replyIntent.putExtra(EXTRA_URL_REPLY, url)
+        replyIntent.putExtra(EXTRA_SITE_REPLY, name.name)
+        replyIntent.putExtra(EXTRA_URL_REPLY, name.url)
         setResult(Activity.RESULT_OK, replyIntent)
+        Toast.makeText(this,"${name.name}이 추가되었습니다!",Toast.LENGTH_LONG).show()
     }
 }
