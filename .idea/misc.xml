@@ -8,6 +8,7 @@
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable/add.xml" value="0.171" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable/arrow_down.xml" value="0.171" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable/arrow_up.xml" value="0.171" />
+        <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable/bookmark.xml" value="0.171" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable/btn_blue.xml" value="0.167" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable/close.xml" value="0.179" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/drawable/item_section.xml" value="0.158" />
@@ -29,6 +30,7 @@
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/activity_yahoo.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_account.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_bloomberg.xml" value="0.125" />
+        <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_book_mark.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_calendar.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_casting.xml" value="0.321875" />
         <entry key="..\:/Users/jt/AndroidStudioProjects/Pin/app/src/main/res/layout/fragment_community.xml" value="0.321875" />

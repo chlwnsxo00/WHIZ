@@ -22,10 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.Interface.ItemListener
 import com.example.adapter.SiteListAdapter
-import com.example.fragment.CalendarFragment
-import com.example.fragment.HomeFragment
-import com.example.fragment.StarFragment
-import com.example.fragment.UserFragment
+import com.example.fragment.*
 import com.example.room.Site
 import com.example.viewModels.SiteViewModel
 import com.example.viewModels.SiteViewModelFactory
@@ -74,26 +71,27 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         adapter.submitList(itemList)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         now.text = SplashActivity.prefs.getString("name", "Bloomberg")
 
-        val recyclerView = findViewById<RecyclerView>(R.id.rvSites)
-        val adapter = SiteListAdapter(this)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        if (savedInstanceState == null) {
+            val recyclerView = findViewById<RecyclerView>(R.id.rvSites)
+            val adapter = SiteListAdapter(this)
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(this)
 
-        fragmentHome = HomeFragment()
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
-        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+            fragmentHome = HomeFragment()
+            bottomNavigationView = findViewById(R.id.bottomNavigationView)
+            bottomNavigationView.setOnNavigationItemSelectedListener(this)
 
-        //첫 프래그먼트 화면은 home fragment로
-        bottomNavigationView.selectedItemId = R.id.home
-        initRecyclerView()
-        initNewsToolbar()
-        initAdd()
+            //첫 프래그먼트 화면은 home fragment로
+            bottomNavigationView.selectedItemId = R.id.home
+            initRecyclerView()
+            initNewsToolbar()
+            initAdd()
+        }
     }
 
     private fun initAdd() {
@@ -173,21 +171,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 val fragmentHome = HomeFragment()
                 transaction.replace(R.id.frameLayout, fragmentHome, "home")
             }
-            R.id.star -> {
-                now.text = " "
-                val fragmentStar = StarFragment()
-                transaction.replace(R.id.frameLayout, fragmentStar, "star")
-            }
-            R.id.calendar -> {
-                now.text = " "
-                val fragmentCalendar = CalendarFragment()
-                transaction.replace(R.id.frameLayout, fragmentCalendar, "calendar")
-            }
-            R.id.user -> {
-                now.text = " "
-                val fragmentUser = UserFragment()
-                transaction.replace(R.id.frameLayout, fragmentUser, "user")
-            }
+//            R.id.bookmark -> {
+//                initNewsToolbar()
+//                val fragmentHome = BookMarkFragment()
+//                transaction.replace(R.id.frameLayout, fragmentHome, "bookmark")
+//            }
+//            R.id.user -> {
+//                now.text = " "
+//                val fragmentUser = UserFragment()
+//                transaction.replace(R.id.frameLayout, fragmentUser, "user")
+//            }
         }
         transaction.addToBackStack(null)
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

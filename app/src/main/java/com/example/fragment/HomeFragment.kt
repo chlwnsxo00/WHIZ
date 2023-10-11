@@ -25,6 +25,10 @@ class HomeFragment : Fragment() {
     private val mainActivity: MainActivity by lazy {
         context as MainActivity
     }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true // 이 부분을 추가
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(

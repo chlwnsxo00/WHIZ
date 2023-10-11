@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.provider.SyncStateContract.Helpers.insert
 import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
@@ -12,12 +13,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ExpandableListView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.Interface.ItemListener
 import com.example.obj.MenuTitle
 import com.example.pin.databinding.ActivityNewSiteBinding
 import com.example.room.Site
+import com.example.viewModels.SiteViewModel
+import com.example.viewModels.SiteViewModelFactory
 
 class NewSiteActivity : AppCompatActivity(), ItemListener {
 
@@ -25,6 +29,9 @@ class NewSiteActivity : AppCompatActivity(), ItemListener {
     private lateinit var editURLView: EditText
     private val expandableListView: ExpandableListView by lazy {
         findViewById(R.id.expandableListView)
+    }
+    private val SiteViewModel: SiteViewModel by viewModels {
+        SiteViewModelFactory((application as SiteApplication).repository)
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -213,10 +220,7 @@ class NewSiteActivity : AppCompatActivity(), ItemListener {
     }
 
     override fun onClicked(name: Site) {
-        val replyIntent = Intent()
-        replyIntent.putExtra(EXTRA_SITE_REPLY, name.name)
-        replyIntent.putExtra(EXTRA_URL_REPLY, name.url)
-        setResult(Activity.RESULT_OK, replyIntent)
+        SiteViewModel.insert(name)
         Toast.makeText(this,"${name.name}이 추가되었습니다!",Toast.LENGTH_LONG).show()
     }
 }

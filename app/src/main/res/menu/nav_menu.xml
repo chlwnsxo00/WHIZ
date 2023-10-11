@@ -7,19 +7,25 @@
         android:enabled="true"
         android:title="뉴스"/>
 
-    <item
-        android:id="@+id/star"
-        android:icon="@drawable/chart"
-        android:enabled="true"
-        android:title="주식" />
-    <item
-        android:id="@+id/calendar"
-        android:icon="@drawable/calendar"
-        android:enabled="true"
-        android:title="달력" />
-    <item
-        android:id="@+id/user"
-        android:icon="@drawable/user"
-        android:enabled="true"
-        android:title="사용자" />
+<!--    <item-->
+<!--        android:id="@+id/bookmark"-->
+<!--        android:icon="@drawable/bookmark"-->
+<!--        android:enabled="true"-->
+<!--        android:title="북마크"/>-->
+
+<!--    <item-->
+<!--        android:id="@+id/star"-->
+<!--        android:icon="@drawable/chart"-->
+<!--        android:enabled="true"-->
+<!--        android:title="주식" />-->
+<!--    <item-->
+<!--        android:id="@+id/calendar"-->
+<!--        android:icon="@drawable/calendar"-->
+<!--        android:enabled="true"-->
+<!--        android:title="달력" />-->
+<!--    <item-->
+<!--        android:id="@+id/user"-->
+<!--        android:icon="@drawable/user"-->
+<!--        android:enabled="true"-->
+<!--        android:title="사용자" />-->
 </menu>
