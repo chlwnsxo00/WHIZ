@@ -56,20 +56,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         SiteViewModelFactory((application as SiteApplication).repository)
     }
 
-    private fun restoreItemOrder(adapter : SiteListAdapter) {
-        val sharedPreferences = getSharedPreferences("item_order", Context.MODE_PRIVATE)
-        val itemList = adapter.currentList.toMutableList()
-
-        // SharedPreferences에서 저장된 순서를 불러와서 아이템 순서를 변경
-        for (item in itemList) {
-            val index = sharedPreferences.getInt(item.name, -1)
-            if (index != -1) {
-                itemList[index] = item
-            }
-        }
-
-        adapter.submitList(itemList)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,9 +88,34 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
     }
 
+
+    private fun restoreItemOrder(adapter: SiteListAdapter) {
+        Log.d("order","시작")
+        val sharedPreferences = getSharedPreferences("item_order", Context.MODE_PRIVATE)
+        val itemList = adapter.currentList.toMutableList()
+
+        // SharedPreferences에서 저장된 순서를 불러와서 아이템 순서를 변경
+        val sortedItems = ArrayList<Site>(itemList.size)
+        for (item in itemList) {
+            val index = sharedPreferences.getInt(item.name, -1)
+            if (index != -1) {
+                sortedItems.add(index, item)
+            } else {
+                // 만약 SharedPreferences에 순서가 저장되지 않은 항목은 마지막에 추가
+                sortedItems.add(item)
+            }
+        }
+        Log.d("order",sortedItems.toString())
+
+        adapter.submitList(sortedItems)
+        Log.d("order","끝")
+    }
+
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.rvSites)
         val adapter = SiteListAdapter(this)
+        // 저장된 순서 복원
+        restoreItemOrder(adapter)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -126,8 +137,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         )
         val helper = ItemTouchHelper(callback)
         helper.attachToRecyclerView(recyclerView)
-        // 저장된 순서 복원
-        restoreItemOrder(adapter)
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
@@ -142,7 +151,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 url = reply
             }
             if (word!=null&&url!=null)
-                SiteViewModel.insert(Site(word!!, url!!))
+                SiteViewModel.insert(Site(word!!, url!!,SiteViewModel.siteSize.value ?: 0))
         } else {
             Toast.makeText(
                 applicationContext,
@@ -211,32 +220,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
         ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
     ) {
-
-
         // RecyclerView의 아이템 위치를 변경한 후에 호출하는 함수
         fun onItemMoved(fromPosition: Int, toPosition: Int) {
             val currentList = siteListAdapter.currentList.toMutableList()
             val movedItem = currentList.removeAt(fromPosition)
             currentList.add(toPosition, movedItem)
             siteListAdapter.submitList(currentList)
-
-            // 변경된 순서를 SharedPreferences에 저장
-            saveItemOrder(currentList)
         }
-
-        // 아이템 순서를 SharedPreferences에 저장하는 함수
-        private fun saveItemOrder(itemList: List<Site>) {
-            val sharedPreferences = getSharedPreferences("item_order", Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-
-            for ((index, item) in itemList.withIndex()) {
-                // 각 아이템의 순서를 저장
-                editor.putInt(item.name, index)
-            }
-
-            editor.apply()
-        }
-
 
         override fun onMove(
             recyclerView: RecyclerView,

@@ -1,6 +1,9 @@
 package com.example.db
 
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
+import com.example.obj.site
 import com.example.room.Site
 import com.example.room.SiteDao
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +15,7 @@ class SiteRepository(private val siteDao: SiteDao) {
     // Room executes all queries on a separate thread.
     // Observed Flow will notify the observer when the data has changed.
     val allSites: Flow<List<Site>> = siteDao.getAll()
+    val size: Flow<Int> = siteDao.getSize()
     // By default Room runs suspend queries off the main thread, therefore, we don't need to
     // implement anything else to ensure we're not doing long running database work
     // off the main thread.
@@ -26,4 +30,5 @@ class SiteRepository(private val siteDao: SiteDao) {
     suspend fun delete(site: Site) {
         siteDao.delete(site)
     }
+
 }

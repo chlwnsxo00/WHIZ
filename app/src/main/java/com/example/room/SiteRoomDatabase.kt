@@ -56,19 +56,18 @@ abstract class SiteRoomDatabase: RoomDatabase(){
             siteDao.deleteAll()
 
             // Add sample words.
-            var site = Site("Bloomberg","https://www.bloomberg.com/markets")
+            var site = Site("Bloomberg","https://www.bloomberg.com/markets",0)
             siteDao.insert(site)
-            site = Site("CNBC", "https://www.cnbc.com/world/?region=world")
+            site = Site("CNBC", "https://www.cnbc.com/world/?region=world",1)
             siteDao.insert(site)
-            site = Site("Google finance", "https://www.google.com/finance/")
+            site = Site("Google finance", "https://www.google.com/finance/",2)
             siteDao.insert(site)
             site = Site("yahoo!finance",
                 "https://finance.yahoo.com/?guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAKB0BfHIF_aP13mToUmDLG_gMUpyz31uzhO03q1FeVx4SlkRq9bKPJNdcqWUH5wOKooDTauDD0aK2gWVn2rrgwEvqSbZL6IyHNTCjp0Baa6w9JTs2Czh249aP5pWJL4H2M714Oh9_3usJyzT1USs4ZiSYGvM1o7Z1rdx62-Np1YM"
-            )
+            ,3)
             siteDao.insert(site)
-            site = Site("FINVIZ", "https://finviz.com/map.ashx?t=sec")
+            site = Site("FINVIZ", "https://finviz.com/map.ashx?t=sec",4)
             siteDao.insert(site)
-
         }
     }
 }

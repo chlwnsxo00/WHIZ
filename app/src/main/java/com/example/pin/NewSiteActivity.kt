@@ -87,81 +87,81 @@ class NewSiteActivity : AppCompatActivity(), ItemListener {
 
         val childList = mutableListOf<MutableList<Site>>(
             mutableListOf(
-                Site("Bloomberg","https://www.bloomberg.com/markets?utm_medium=cpc_search&utm_campaign=BR_ACQ_BRAND_BRANDGENERALX_EVG_XXXX_XXX_Y0469_EN_EN_X_BLOM_GO_SE_XXX_XXXXXXXXXX&gclid=CjwKCAjwgsqoBhBNEiwAwe5w07YyYqykrAK2ut5OtWCTLI01lZU3uauuM2eIxu-qRzFqpY7qowBR3RoCRjsQAvD_BwE&gclsrc=aw.ds")
-                , Site("CNBC","https://www.cnbc.com/world/?region=world"),
-                Site("CNN buiness","https://edition.cnn.com/business"),
-                Site("Market Watch","https://www.marketwatch.com/")
+                Site("Bloomberg","https://www.bloomberg.com/markets?utm_medium=cpc_search&utm_campaign=BR_ACQ_BRAND_BRANDGENERALX_EVG_XXXX_XXX_Y0469_EN_EN_X_BLOM_GO_SE_XXX_XXXXXXXXXX&gclid=CjwKCAjwgsqoBhBNEiwAwe5w07YyYqykrAK2ut5OtWCTLI01lZU3uauuM2eIxu-qRzFqpY7qowBR3RoCRjsQAvD_BwE&gclsrc=aw.ds",SiteViewModel.siteSize.value ?: 0)
+                , Site("CNBC","https://www.cnbc.com/world/?region=world",SiteViewModel.siteSize.value ?: 0),
+                Site("CNN buiness","https://edition.cnn.com/business",SiteViewModel.siteSize.value ?: 0),
+                Site("Market Watch","https://www.marketwatch.com/",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("EDGAR","https://www.sec.gov/edgar/searchedgar/companysearch")
-                , Site("BAMSEC","https://www.bamsec.com/")
+                Site("EDGAR","https://www.sec.gov/edgar/searchedgar/companysearch",SiteViewModel.siteSize.value ?: 0)
+                , Site("BAMSEC","https://www.bamsec.com/",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("Yahoo Finance","https://finance.yahoo.com/")
-                , Site("Google Finance","https://www.google.com/finance/"),
-                Site("Investing","https://kr.investing.com/"),
-                Site("Finviz","https://finviz.com/")
-                , Site("Benzinga","https://www.benzinga.com/"),
-                Site("MarketBeat","https://www.marketbeat.com/"),
-                Site("Koyfin","https://www.koyfin.com/")
-                , Site("Trading View","https://kr.tradingview.com/")
+                Site("Yahoo Finance","https://finance.yahoo.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("Google Finance","https://www.google.com/finance/",SiteViewModel.siteSize.value ?: 0),
+                Site("Investing","https://kr.investing.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("Finviz","https://finviz.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("Benzinga","https://www.benzinga.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("MarketBeat","https://www.marketbeat.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("Koyfin","https://www.koyfin.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("Trading View","https://kr.tradingview.com/",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("Stockrow","https://community.stockrow.com/")
-                , Site("macrotrends","https://www.macrotrends.net/")
+                Site("Stockrow","https://community.stockrow.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("macrotrends","https://www.macrotrends.net/",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("Gurufocus","https://www.gurufocus.com/")
+                Site("Gurufocus","https://www.gurufocus.com/",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("Market Screener","https://www.marketscreener.com/")
-                , Site("finbox","https://finbox.com/"),
-                Site("Seeking Alpha","https://seekingalpha.com/"),
-                Site("The Motley Fool","https://www.fool.com/")
-                , Site("VIC","http://www.vicglobal.co.kr/main.vg")
+                Site("Market Screener","https://www.marketscreener.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("finbox","https://finbox.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("Seeking Alpha","https://seekingalpha.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("The Motley Fool","https://www.fool.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("VIC","http://www.vicglobal.co.kr/main.vg",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("MorningStar","https://www.morningstar.com/")
-                , Site("Zacks","https://www.zacks.com/"),
-                Site("Stockchart","https://stockcharts.com/"),
-                Site("Barchart","https://www.barchart.com/")
+                Site("MorningStar","https://www.morningstar.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("Zacks","https://www.zacks.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("Stockchart","https://stockcharts.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("Barchart","https://www.barchart.com/",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("ETF Trends","https://www.etftrends.com/")
-                , Site("ETF DB","https://etfdb.com/")
+                Site("ETF Trends","https://www.etftrends.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("ETF DB","https://etfdb.com/",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("Fed","https://www.federalreserve.gov/newsevents.htm")
-                , Site("FRED","https://fred.stlouisfed.org/"),
-                Site("Trading Economics","https://tradingeconomics.com/")
+                Site("Fed","https://www.federalreserve.gov/newsevents.htm",SiteViewModel.siteSize.value ?: 0)
+                , Site("FRED","https://fred.stlouisfed.org/",SiteViewModel.siteSize.value ?: 0),
+                Site("Trading Economics","https://tradingeconomics.com/",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("Earnings Whisper","https://www.earningswhispers.com/")
-                , Site("TipRanks","https://www.tipranks.com/"),
-                Site("Fidelity","https://www.fidelity.com/"),
-                Site("Alpha Street","https://www.alphastreet.com/home")
+                Site("Earnings Whisper","https://www.earningswhispers.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("TipRanks","https://www.tipranks.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("Fidelity","https://www.fidelity.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("Alpha Street","https://www.alphastreet.com/home",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("Nasdaq IPO","https://www.nasdaq.com/market-activity/ipos")
-                , Site("NYSE IPO","https://www.nyse.com/ipo-center/filings"),
-                Site("SPAC Analytics","https://www.spacanalytics.com/"),
-                Site("SPAC Insider","https://www.spacinsider.com/")
-                , Site("SPAC Research","https://www.spacresearch.com/"),
-                Site("CB Insights","https://www.cbinsights.com/research-request-a-demo?campaignid=20427135244&adgroupid=148837960981&utm_term=cb%20insights&utm_source=google&utm_medium=cpc&utm_campaign=PAID_2023_GOOGLE_BRANDED&hsa_tgt=kwd-67162128744&hsa_grp=148837960981&hsa_src=g&hsa_net=adwords&hsa_mt=e&hsa_ver=3&hsa_ad=654764386547&hsa_acc=5728918340&hsa_kw=cb%20insights&hsa_cam=20427135244&gclid=CjwKCAjwgsqoBhBNEiwAwe5w0xoD5ZMhAii9AYNBmIDtJlKnTQVzjTwTjeK8Kxg2rvjr2prySXBM1xoCO8cQAvD_BwE")
+                Site("Nasdaq IPO","https://www.nasdaq.com/market-activity/ipos",SiteViewModel.siteSize.value ?: 0)
+                , Site("NYSE IPO","https://www.nyse.com/ipo-center/filings",SiteViewModel.siteSize.value ?: 0),
+                Site("SPAC Analytics","https://www.spacanalytics.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("SPAC Insider","https://www.spacinsider.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("SPAC Research","https://www.spacresearch.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("CB Insights","https://www.cbinsights.com/research-request-a-demo?campaignid=20427135244&adgroupid=148837960981&utm_term=cb%20insights&utm_source=google&utm_medium=cpc&utm_campaign=PAID_2023_GOOGLE_BRANDED&hsa_tgt=kwd-67162128744&hsa_grp=148837960981&hsa_src=g&hsa_net=adwords&hsa_mt=e&hsa_ver=3&hsa_ad=654764386547&hsa_acc=5728918340&hsa_kw=cb%20insights&hsa_cam=20427135244&gclid=CjwKCAjwgsqoBhBNEiwAwe5w0xoD5ZMhAii9AYNBmIDtJlKnTQVzjTwTjeK8Kxg2rvjr2prySXBM1xoCO8cQAvD_BwE",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("Dvidend","https://www.dividend.com/")
-                , Site("Dvidend Investor","https://www.dividendinvestor.com/")
+                Site("Dvidend","https://www.dividend.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("Dvidend Investor","https://www.dividendinvestor.com/",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("Portfolio Visualizer","https://www.portfoliovisualizer.com/")
+                Site("Portfolio Visualizer","https://www.portfoliovisualizer.com/",SiteViewModel.siteSize.value ?: 0)
             ),
             mutableListOf(
-                Site("TeleTrader","https://www.teletrader.com/")
-                , Site("EIA","https://www.eia.gov/"),
-                Site("Business Insider","https://www.businessinsider.com/"),
-                Site("Gold Price USA","https://goldprice.org/")
-                , Site("NakedShort Report","https://www.nakedshortreport.com/")
+                Site("TeleTrader","https://www.teletrader.com/",SiteViewModel.siteSize.value ?: 0)
+                , Site("EIA","https://www.eia.gov/",SiteViewModel.siteSize.value ?: 0),
+                Site("Business Insider","https://www.businessinsider.com/",SiteViewModel.siteSize.value ?: 0),
+                Site("Gold Price USA","https://goldprice.org/",SiteViewModel.siteSize.value ?: 0)
+                , Site("NakedShort Report","https://www.nakedshortreport.com/",SiteViewModel.siteSize.value ?: 0)
             )
         )
         val adapter = ExpandableListAdapter(this, parentList, childList,this)

@@ -12,7 +12,7 @@ class SiteViewModel(private val repository: SiteRepository) : ViewModel() {
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
     val allSites: LiveData<List<Site>> = repository.allSites.asLiveData()
-
+    val siteSize: LiveData<Int> = repository.size.asLiveData()
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
